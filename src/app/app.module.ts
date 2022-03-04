@@ -11,6 +11,7 @@ import {Router} from '@angular/router'
 import * as Sentry from "@sentry/angular";
 import {BrowserTracing} from '@sentry/tracing'
 import {HttpClient, HttpClientModule} from '@angular/common/http'
+import {EffectsModule} from '@ngrx/effects'
 
 Sentry.init({
   dsn: 'https://87ffaf9d9c3d4c799569ce790176317b@o1158813.ingest.sentry.io/6242233',
@@ -32,6 +33,7 @@ Sentry.init({
     HttpClientModule,
     AuthModule,
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
