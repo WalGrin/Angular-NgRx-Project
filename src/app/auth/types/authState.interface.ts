@@ -3,8 +3,7 @@ import {BackendErrorsInterface} from '../../shared/types/backendErrors.interface
 
 export interface AuthStateInterface {
   isSubmitting: boolean;
-  currentUser: CurrentUserInterface | null; // null так как мы в самом начале
-  // currentUser не зафетчен, а когда мы его получаем, тогда и записывается
+  currentUser: CurrentUserInterface | null;
   isLoggedIn: boolean | null;
   validationErrors: BackendErrorsInterface | null;
 }
