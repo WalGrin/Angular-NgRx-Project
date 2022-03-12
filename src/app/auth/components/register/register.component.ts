@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
 import {select, Store} from '@ngrx/store'
 
-import {registerAction} from 'src/app/auth/store/actions/register.actions'
+import {registerAction} from 'src/app/auth/store/actions/register.action'
 import {Observable} from 'rxjs'
 import {isSubmittingSelector, validationErrorsSelector} from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'

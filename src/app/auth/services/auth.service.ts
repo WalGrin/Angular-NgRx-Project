@@ -6,7 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {AuthResponseInterface} from '../types/authResponse.interface';
 import {map} from 'rxjs/operators';
-import {LoginRequestInterface} from '../types/loginRequest.interface'
+import {LoginRequestInterface} from '../types/loginRequest.interface';
 
 @Injectable()
 export class AuthService {
@@ -22,14 +22,20 @@ export class AuthService {
     const url = environment.apiUrl + '/users';
     return this.http
       .post<AuthResponseInterface>(url, data)
-      .pipe(map(this.getUser)); // в операторе map функция не записывается со скобками
-    // и в нее не передаются аргументы
+      .pipe(map(this.getUser));
   }
 
   login(data: LoginRequestInterface): Observable<CurrentUserInterface> {
     const url = environment.apiUrl + '/users/login';
     return this.http
       .post<AuthResponseInterface>(url, data)
+      .pipe(map(this.getUser));
+  }
+
+  getCurrentUser(): Observable<CurrentUserInterface> {
+    const url = environment.apiUrl + '/user';
+    return this.http
+      .get<AuthResponseInterface>(url)
       .pipe(map(this.getUser));
   }
 }
