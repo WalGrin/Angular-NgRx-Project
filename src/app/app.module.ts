@@ -10,9 +10,11 @@ import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import * as Sentry from '@sentry/angular';
 import {BrowserTracing} from '@sentry/tracing';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {EffectsModule} from '@ngrx/effects';
 import {TopBarModule} from './shared/modules/topBar/topBar.module';
+import {PersistanceService} from './shared/services/persistance.service';
+import {AuthInterceptor} from './shared/services/authinterceptor.service';
 
 Sentry.init({
   dsn: 'https://87ffaf9d9c3d4c799569ce790176317b@o1158813.ingest.sentry.io/6242233',
@@ -42,6 +44,12 @@ Sentry.init({
     TopBarModule
   ],
   providers: [
+    PersistanceService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
