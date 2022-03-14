@@ -1,7 +1,7 @@
-import {createAction, props} from '@ngrx/store'
-import {ActionTypes} from 'src/app/auth/store/actionTypes'
+import {ActionTypes} from 'src/app/auth/store/actionTypes';
 
-export const registerAction = createAction(
-  ActionTypes.REGISTER,
-  props<{username: string; password: string; email: string}>()
-)
+export class RegisterAction {
+  static readonly type = ActionTypes.REGISTER;
+  constructor(public username: string, password: string, email: string) {
+  }
+}
