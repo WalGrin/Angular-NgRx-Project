@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core'
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getFeedAction} from '../../store/actions/getFeed.action';
 import {Observable, Subscription} from 'rxjs';

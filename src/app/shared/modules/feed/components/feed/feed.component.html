@@ -3,16 +3,16 @@
 
 <div *ngIf='feed$ | async'>
   <div
-      class='article-preview'
-       *ngFor='let article of (feed$ | async)?.articles'
+    class='article-preview'
+    *ngFor='let article of (feed$ | async)?.articles'
   >
     <div class='article-meta'>
       <a [routerLink]="['/profiles', 'article.author.username']">
-        <img [src]='article.author.image'/>
+        <img [src]='article.author.image' />
       </a>
       <div class='info'>
         <a [routerLink]="['/profiles', 'article.author.username']">
-         {{article.author.username}}
+          {{article.author.username}}
         </a>
         <span class='date'>{{article.createdAt}}</span>
       </div>
@@ -28,5 +28,10 @@
       </a>
     </div>
   </div>
-  PAGINATION
+  <mc-pagination
+    [total]='(feed$ | async)?.articlesCount'
+    [limit]='limit'
+    [url]='baseUrl'
+    [currentPage]='currentPage'
+  ></mc-pagination>
 </div>
