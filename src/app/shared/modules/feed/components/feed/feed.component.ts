@@ -6,6 +6,7 @@ import {GetFeedResponseInterface} from '../../types/getFeedResponse.interface';
 import {errorSelector, feedSelector, isLoadingSelector} from '../../store/selectors';
 import {environment} from '../../../../../../environments/environment';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {parseUrl, stringify} from 'query-string'; // библиотека для правильного создания query параметров запроса
 
 @Component({
   selector: 'mc-feed',
@@ -30,10 +31,8 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeValues();
-    this.fetchData();
-    this.initializeListeners(); // метод для всех подписок
-    console.log('baseUrl', this.router.url); // Выводит - /,
-    // но может например такой, если там несколько страниц /tags/some?page=7
+    this.initializeListeners();
+    console.log('baseUrl', this.router.url);
   }
 
 
@@ -41,21 +40,30 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.error$ = this.store.pipe(select(errorSelector));
     this.feed$ = this.store.pipe(select(feedSelector));
-    this.baseUrl = this.router.url.split('?')[0]; // получим /tags/some из /tags/some?page=7
+    this.baseUrl = this.router.url.split('?')[0];
   }
 
-  fetchData(): void {
-    this.store.dispatch(getFeedAction({url: this.apiUrlProps}));
+  fetchFeed(): void {
+    const offset = this.currentPage * this.limit - this.limit;
+    // Для правильного запроса нужно чтобы получилось this.apiUrlProps?offset=offset&limit=limit
+    const parsedUrl = parseUrl(this.apiUrlProps);
+    console.log('parsedUrl', parsedUrl); // {query: {}, url: "/articles"}
+    const stringifiedParams = stringify({
+      limit: this.limit,
+      offset,
+      ...parsedUrl.query
+    });
+    const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
+    this.store.dispatch(getFeedAction({url: apiUrlWithParams}));
   }
 
   initializeListeners(): void {
     this.queryParamsSubscription = this.route.queryParams.subscribe((params: Params) => {
       this.currentPage = Number(params.page || '1');
-      console.log('currentPage', this.currentPage);  // получим 7 из /tags/some?page=7
+      console.log('currentPage', this.currentPage);
+      this.fetchFeed();
     });
   }
-  // Не забывать делать отписки, если подписка делается с помощью метода .subscribe!!!
-  // В данном случае route сам делает отписку, но в качестве примера сделали отписку
 
   ngOnDestroy(): void {
     this.queryParamsSubscription.unsubscribe();

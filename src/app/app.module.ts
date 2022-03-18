@@ -15,7 +15,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {TopBarModule} from './shared/modules/topBar/topBar.module';
 import {PersistanceService} from './shared/services/persistance.service';
 import {AuthInterceptor} from './shared/services/authinterceptor.service';
-import {GlobalFeedModule} from './globalFeed/globalFeed.module'
+import {GlobalFeedModule} from './globalFeed/globalFeed.module';
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 
 Sentry.init({
   dsn: 'https://87ffaf9d9c3d4c799569ce790176317b@o1158813.ingest.sentry.io/6242233',
@@ -36,7 +37,8 @@ Sentry.init({
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({router: routerReducer}),
+    StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

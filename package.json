@@ -20,10 +20,12 @@
     "@angular/platform-browser-dynamic": "~9.0.5",
     "@angular/router": "~9.0.5",
     "@ngrx/effects": "^9.0.0",
+    "@ngrx/router-store": "^9.0.0",
     "@ngrx/store": "^9.0.0",
     "@ngrx/store-devtools": "^9.0.0",
     "@sentry/angular": "^6.18.1",
     "@sentry/tracing": "^6.18.1",
+    "query-string": "^7.1.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

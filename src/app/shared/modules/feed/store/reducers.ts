@@ -1,6 +1,7 @@
 import {FeedStateInterface} from '../types/feedState.interface';
 import {Action, createReducer, on} from '@ngrx/store'
 import {getFeedAction, getFeedFailureAction, getFeedSuccessAction} from './actions/getFeed.action'
+import {routerNavigatedAction} from '@ngrx/router-store'
 
 const initialState: FeedStateInterface = {
   isLoading: false,
@@ -28,9 +29,15 @@ const feedReducer = createReducer(
       ...state,
       isLoading: false
     })
+  ),
+  on(
+    routerNavigatedAction, (): FeedStateInterface => initialState // удаление всех данных
   )
 );
 
 export function reducers(state: FeedStateInterface, action: Action) {
   return feedReducer(state, action);
 }
+
+
+
